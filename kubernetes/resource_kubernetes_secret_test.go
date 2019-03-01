@@ -333,12 +333,12 @@ func testAccKubernetesSecretConfig_emptyData(name string) string {
 	return fmt.Sprintf(`
 resource "kubernetes_secret" "test" {
   metadata {
-    annotations {
+    annotations = {
       TestAnnotationOne = "one"
       TestAnnotationTwo = "two"
     }
 
-    labels {
+    labels = {
       TestLabelOne   = "one"
       TestLabelTwo   = "two"
       TestLabelThree = "three"
@@ -347,7 +347,7 @@ resource "kubernetes_secret" "test" {
     name = "%s"
   }
 
-  data {}
+  data = {}
 }
 `, name)
 }
@@ -356,12 +356,12 @@ func testAccKubernetesSecretConfig_basic(name string) string {
 	return fmt.Sprintf(`
 resource "kubernetes_secret" "test" {
   metadata {
-    annotations {
+    annotations = {
       TestAnnotationOne = "one"
       TestAnnotationTwo = "two"
     }
 
-    labels {
+    labels = {
       TestLabelOne   = "one"
       TestLabelTwo   = "two"
       TestLabelThree = "three"
@@ -370,7 +370,7 @@ resource "kubernetes_secret" "test" {
     name = "%s"
   }
 
-  data {
+  data = {
     one = "first"
     two = "second"
   }
@@ -382,12 +382,12 @@ func testAccKubernetesSecretConfig_modified(name string) string {
 	return fmt.Sprintf(`
 resource "kubernetes_secret" "test" {
   metadata {
-    annotations {
+    annotations = {
       TestAnnotationOne = "one"
       Different         = "1234"
     }
 
-    labels {
+    labels = {
       TestLabelOne   = "one"
       TestLabelThree = "three"
     }
@@ -395,7 +395,7 @@ resource "kubernetes_secret" "test" {
     name = "%s"
   }
 
-  data {
+  data = {
     one  = "first"
     two  = "second"
     nine = "ninth"
@@ -421,7 +421,7 @@ resource "kubernetes_secret" "test" {
     name = "%s"
   }
 
-  data {
+  data = {
     username = "admin"
     password = "password"
   }
@@ -438,7 +438,7 @@ resource "kubernetes_secret" "test" {
     generate_name = "%s"
   }
 
-  data {
+  data = {
     one = "first"
     two = "second"
   }
@@ -453,8 +453,8 @@ resource "kubernetes_secret" "test" {
     generate_name = "%s"
   }
 
-  data {
-    one = "${file("./test-fixtures/binary.data")}"
+  data = {
+    one = "${base64decode(filebase64("./test-fixtures/binary.data"))}"
   }
 }
 `, prefix)
@@ -467,9 +467,9 @@ resource "kubernetes_secret" "test" {
     generate_name = "%s"
   }
 
-  data {
-    one = "${file("./test-fixtures/binary2.data")}"
-    two = "${file("./test-fixtures/binary.data")}"
+  data = {
+    one = "${base64decode(filebase64("./test-fixtures/binary2.data"))}"
+    two = "${base64decode(filebase64("./test-fixtures/binary.data"))}"
   }
 }
 `, prefix)

@@ -311,12 +311,12 @@ func testAccKubernetesEndpointConfig_basic(name string) string {
 	return fmt.Sprintf(`
 resource "kubernetes_endpoint" "test" {
   metadata {
-    annotations {
+    annotations = {
       TestAnnotationOne = "one"
       TestAnnotationTwo = "two"
     }
 
-    labels {
+    labels = {
       TestLabelOne   = "one"
       TestLabelTwo   = "two"
       TestLabelThree = "three"
@@ -344,12 +344,12 @@ func testAccKubernetesEndpointConfig_modified(name string) string {
 	return fmt.Sprintf(`
 resource "kubernetes_endpoint" "test" {
   metadata {
-    annotations {
+    annotations = {
       TestAnnotationOne = "one"
       Different         = "1234"
     }
 
-    labels {
+    labels = {
       TestLabelOne   = "one"
       TestLabelThree = "three"
     }
