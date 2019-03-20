@@ -1,8 +1,10 @@
+#!/bin/bash
+echo "KOPS_STATE_STORE=$KOPS_STATE_STORE"
 MAX_RETRIES=$1
 
 RETRIES=1
 while [ 1 ]; do
-  kops validate cluster --state=s3://${BUCKET_NAME}
+  kops validate cluster
   if [ $? == 0 ]; then
     break
   fi
@@ -12,6 +14,7 @@ while [ 1 ]; do
   ((RETRIES++))
   if [ $RETRIES -gt $MAX_RETRIES ]; then
     echo "Bailing out after $MAX_RETRIES retries"
+    exit 1
     break
   fi
 done
@@ -30,6 +33,7 @@ while [ 1 ]; do
   ((RETRIES++))
   if [ $RETRIES -gt $MAX_RETRIES ]; then
     echo "Bailing out after $MAX_RETRIES retries"
+    exit 1
     break
   fi
 done
