@@ -51,7 +51,6 @@ func podSpecFields(isUpdatable, isDeprecated, isComputed bool) map[string]*schem
 			Type:        schema.TypeList,
 			Optional:    true,
 			Computed:    isComputed,
-			DefaultFunc: defaultIfNotComputed(isComputed, false),
 			Description: "List of hosts and IPs that will be injected into the pod's hosts file if specified. Optional: Default to false.",
 			Deprecated:  deprecatedMessage,
 			Elem: &schema.Resource{
