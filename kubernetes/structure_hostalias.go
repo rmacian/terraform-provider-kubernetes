@@ -12,7 +12,7 @@ func flattenHostaliases(in []v1.HostAlias) []interface{} {
 		}
 		att[i] = ha
 	}
-	return []interface{}{att}
+	return att
 }
 func expandHostaliases(hostalias []interface{}) ([]v1.HostAlias, error) {
 	if len(hostalias) == 0 {
