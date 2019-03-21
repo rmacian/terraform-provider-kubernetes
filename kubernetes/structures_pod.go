@@ -347,6 +347,14 @@ func expandPodSpec(p []interface{}) (*v1.PodSpec, error) {
 		obj.DNSPolicy = v1.DNSPolicy(v)
 	}
 
+	if v, ok := in["host_aliases"].([]interface{}); ok && len(v) > 0 {
+		hs, err := expandHostaliases(v)
+		if err != nil {
+			return obj, err
+		}
+		obj.HostAliases = hs
+	}
+
 	if v, ok := in["host_ipc"]; ok {
 		obj.HostIPC = v.(bool)
 	}
