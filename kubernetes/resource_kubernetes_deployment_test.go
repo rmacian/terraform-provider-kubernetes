@@ -1215,3 +1215,68 @@ resource "kubernetes_deployment" "test" {
 }
 `, rcName, imageName)
 }
+
+func testAccKubernetesDeploymentConfigHostAliases(name string) string {
+	return fmt.Sprintf(`
+resource "kubernetes_deployment" "test" {
+  metadata {
+    annotations {
+      TestAnnotationOne = "one"
+      TestAnnotationTwo = "two"
+    }
+
+    labels {
+      TestLabelOne   = "one"
+      TestLabelTwo   = "two"
+      TestLabelThree = "three"
+    }
+
+    name = "%s"
+  }
+
+  spec {
+    replicas = 100 # This is intentionally high to exercise the waiter
+
+    selector {
+      match_labels {
+        TestLabelOne   = "one"
+        TestLabelTwo   = "two"
+        TestLabelThree = "three"
+      }
+    }
+
+    template {
+      metadata {
+        labels {
+          TestLabelOne   = "one"
+          TestLabelTwo   = "two"
+          TestLabelThree = "three"
+        }
+      }
+
+      spec {
+        container {
+          image = "nginx:1.7.8"
+          name  = "tf-acc-test"
+
+          resources {
+            requests {
+              memory = "64Mi"
+              cpu    = "50m"
+            }
+          }
+        }
+        host_aliases {
+          ip = "127.0.0.5"
+          hostnames = ["abc.com","contoso.com"]
+        }
+        host_aliases {
+          ip = "127.0.0.6"
+          hostnames = ["xyz.com"]
+        }
+      }
+    }
+  }
+}
+`, name)
+}
