@@ -1235,7 +1235,7 @@ resource "kubernetes_deployment" "test" {
   }
 
   spec {
-    replicas = 100 # This is intentionally high to exercise the waiter
+    replicas = 1 
 
     selector {
       match_labels {
